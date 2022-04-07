@@ -6,15 +6,16 @@ class CafeDetails(models.Model):
 
 
 class FoodItems(models.Model):
-   name = models.CharField(max_length=50)
-   vegan = models.BooleanField(default=False)
-   vegetarian = models.BooleanField(default=False)
-   gluten_free = models.BooleanField(default=False)
-   kosher = models.BooleanField(default=False)
-   halal = models.BooleanField(default=False)
-   humane = models.BooleanField(default=False)
-   seafood_watch = models.BooleanField(default=False)
-   farmToFork = models.BooleanField(default=False)
+    item_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    vegan = models.BooleanField(default=False)
+    vegetarian = models.BooleanField(default=False)
+    gluten_free = models.BooleanField(default=False)
+    kosher = models.BooleanField(default=False)
+    halal = models.BooleanField(default=False)
+    humane = models.BooleanField(default=False)
+    seafood_watch = models.BooleanField(default=False)
+    farmToFork = models.BooleanField(default=False)
 
 
 class StationDetails(models.Model):

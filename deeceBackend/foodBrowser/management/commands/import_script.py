@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 import requests
 from dataclasses import dataclass
 import random
-
+from foodBrowser.models import FoodItems
 
 @dataclass
 class FoodItem:
@@ -27,7 +27,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         response = requests.get(
-            "https://legacy.cafebonappetit.com/api/2/menus?cafe=1626,1627&date=2021-04-22"
+            "https://legacy.cafebonappetit.com/api/2/menus?cafe=1626,1627,1628,1629,1630&date=2022-03-23"
         )
         response_dict = response.json()
         food_items = []
@@ -40,13 +40,13 @@ class Command(BaseCommand):
                         for item in station["items"]:
                             item_info = response_dict["items"][item]
                             food_items.append(
-                                FoodItem(
+                                FoodItems(
                                     item_id=item,
                                     name=item_info["label"],
-                                    date="2021-04-22",
-                                    cafe=cafe,
-                                    station=station["label"],
-                                    meal_label=daypart["label"],
+                                    # date="2021-04-22",
+                                    # cafe=cafe,
+                                    # station=station["label"],
+                                    # meal_label=daypart["label"],
                                 )
                             )
                             if type(item_info["cor_icon"]) == dict:
@@ -67,7 +67,8 @@ class Command(BaseCommand):
                                         food_items[-1].humane = True
                                     elif key == "3":
                                         food_items[-1].seafood = True
-        sample = random.sample(food_items, 10)
-        for i in sample:
-            print(i)
-        print(len(food_items))
+        # sample = random.sample(food_items, 10)
+        # for i in sample:
+        #     print(i)
+        # print(len(food_items))
+        FoodItems.objects.bulk_create(food_items)
